@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 
 import HomePage from './HomePage';
-import Login from './Login';
+import Login from './accountUI/Login';
 import Register from './accountUI/Register';
 /* global stylesheets */
 import 'bootstrap/dist/css/bootstrap.min.css';
