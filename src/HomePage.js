@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-//import { withRouter } from 'react-router-dom';
-
+import Container from './layout/ContainerBasic';
 
 class HomePage extends Component {
-    componentDidMount() {
-        console.log(this.props);
-        //this.props.history.push("/login");
-    }
+
     render() {
         return (
-            <div>
-            HomePage component
-            </div>
+            <Container>
+                <h1>Home Page</h1>
+            
+            </Container>
         )
 
     }

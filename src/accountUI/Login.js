@@ -1,30 +1,20 @@
 import React, { Component } from 'react';
-import { Form, Button, Alert, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Form, Alert, Button, Card } from 'react-bootstrap';
 import Container from '../layout/ContainerBasic';
-import {
-    validateEmail,
-    validatePassword
- } from './utils';
+import Cookies from 'js-cookie';
 
- const REGISTRATION_API_ENDPOINT = '/api/register';
+ const LOGIN_API_ENDPOINT = '/api/login';
 
-/*
 
-- when email is valid && password meets validation requirements, enable submit button
-
-*/
-
-class Register extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
-            emailIsValid: false,
-            passwordIsValid: false,
-            errorList: [],
             success: false,
+            errorList: []
         };
         this.handleUpdateEmail = this.handleUpdateEmail.bind(this);
         this.handleUpdatePassword = this.handleUpdatePassword.bind(this);
@@ -36,7 +26,6 @@ class Register extends Component {
 
         this.setState({
             email: evt.target.value,
-            emailIsValid: validateEmail(evt.target.value),
         });
    
     }
@@ -44,55 +33,55 @@ class Register extends Component {
     handleUpdatePassword(evt) {
         this.setState({
             password: evt.target.value,
-            passwordIsValid: validatePassword(evt.target.value),
         });
     }
 
     handleFormSubmit(evt) {
+        const _this = this;
         //submit data to server
-        const { email, password } = this.state;
 
-        fetch(REGISTRATION_API_ENDPOINT, {
+        fetch(LOGIN_API_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            credentials: 'same-origin', //<-- this is for cookies or something...
+            credentials: 'same-origin', //<-- because we have specified same-origins, all api requests send a cookie to server
             body: JSON.stringify({
-                email: email,
-                password: password
+                email: _this.state.email,
+                password: _this.state.password
             })
         }).then((res) => {
             if (!res.ok) {
                 return res.json().then(err => {throw err}); //<-- throw an error if response is not ok
             }
-            return res.json;
+            return res.json();
         }).then((results) => {
-            //ACCOUNT SUCCESSFULLY CREATED
+            //SUCCESSFUL LOGIN
             this.setState({
-                success: true
+                success:true
             })
             
             console.log("results: ", results);
+            //this cookie will be sent to the server with each API request, and will confirm that the user is logged in.
+            const token = results.token;
+            Cookies.set('token', token, {
+                expires: 7 //<-- cookie experiesi n 7 days
+            });
         })
         .catch((err) => {
-            console.log(err.errors);
+            console.log(err);
             //DISPLAY ERROR ON UI
-
             this.setState((prevState, props) => ({
                 errorList: [...prevState.errorList, ...err.errors],
             }));
-
-            console.log('error list: ', this.state.errorList);
-
         })
 
     }
 
 
     render() {
-        const { success, email, password, emailIsValid, passwordIsValid, errorList } = this.state;
+        const { success, email, password, errorList } = this.state;
 
         if (errorList.length) {
             return (
@@ -113,7 +102,7 @@ class Register extends Component {
         if (success) {
             return (
                 <Container>
-                    <Alert variant="success">You are now registered! Redirect to logged in area.</Alert>
+                    <Alert variant="success">You are now logged in! Redirect to logged in area.</Alert>
                 </Container>
             )
         }
@@ -121,9 +110,10 @@ class Register extends Component {
         return (
             <Container>
                 <Card>
-                <Card.Header as="h2">Register</Card.Header>
+                    <Card.Header as="h2">Login</Card.Header>
 
-                    <Card.Body>          
+                    <Card.Body>
+
                         <Form> 
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
@@ -144,7 +134,6 @@ class Register extends Component {
                                 value={password} 
                                 onChange={this.handleUpdatePassword}
                             />
-                            <Form.Text className="text-muted">Password instructions</Form.Text>
                             
                         </Form.Group>
 
@@ -152,17 +141,17 @@ class Register extends Component {
                         <Button 
                             variant="primary" 
                             type="button"
-                            disabled={!(emailIsValid && passwordIsValid) }
+                            disabled={!(this.state.email.length && this.state.password.length) }
                             onClick={this.handleFormSubmit}
                         >
                             Submit
                         </Button>
-  
                         </Form>
                     </Card.Body>
                     <Card.Footer> 
-                            Already have an account? <Link to='/login'>Log in instead.</Link> 
-                        </Card.Footer>
+                            <p>Don't have an account? <Link to='/register'>Register here.</Link></p>
+                            <p>Trouble logging in?  <Link to='/account/reset-password-link'>Reset password here.</Link></p>
+                    </Card.Footer>
                 </Card>
             </Container>
 
@@ -171,4 +160,4 @@ class Register extends Component {
 }
 
 
-export default Register;
+export default Login;
