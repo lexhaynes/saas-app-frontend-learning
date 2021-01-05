@@ -1,17 +1,9 @@
-import React, { Component } from 'react';
-import Container from './layout/ContainerBasic';
 
-class HomePage extends Component {
+const HomePage = () => {
+    return (
+        <h1>Home Page</h1>
+    )
 
-    render() {
-        return (
-            <Container>
-                <h1>Home Page</h1>
-            
-            </Container>
-        )
-
-    }
 }
 
 export default HomePage;

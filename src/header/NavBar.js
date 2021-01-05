@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { routesData } from '../Routes';
+import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+
+
+const filterQuery = (path) => {
+    return (path === "/register" || path === "/login" || path === "/")
+}
+
+
+const mainNav = routesData.filter(obj => filterQuery(obj.path));
+
+const dropdownNav = routesData.filter(obj => !filterQuery(obj.path));
 
 class NavBar extends Component {
 
@@ -11,9 +22,18 @@ class NavBar extends Component {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
-                                <Nav.Link href="/">Home</Nav.Link>
-                                <Nav.Link href="/login">Login</Nav.Link>
-                                <Nav.Link href="/register">Register</Nav.Link>
+                                {
+                                    mainNav.map( (route, i) => {
+                                        return <Nav.Link key={"mainNavLink-"+i} href={route.path}>{ route.title }</Nav.Link>
+                                    })
+                                }
+                                <NavDropdown title="Other Routes" id="basic-nav-dropdown">
+                                    {
+                                        dropdownNav.map( (route, i) => {
+                                            return <NavDropdown.Item key={"mainNavDropdown-"+i} href={route.path}>{ route.title }</NavDropdown.Item>
+                                        })
+                                    }
+                                </NavDropdown>
                             </Nav>
                         </Navbar.Collapse>
                 </Container>

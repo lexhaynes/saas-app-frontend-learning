@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Alert, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Container from '../layout/ContainerBasic';
 import {
     validateEmail,
     validatePassword
@@ -96,7 +95,7 @@ class Register extends Component {
 
         if (errorList.length) {
             return (
-                <Container>
+                <>
                     {
                         errorList.map((err, i) => {
                             return (
@@ -106,20 +105,17 @@ class Register extends Component {
                             )
                         })
                     }
-                </Container>
+                </>
             )
         } 
 
         if (success) {
             return (
-                <Container>
-                    <Alert variant="success">You are now registered! Redirect to logged in area.</Alert>
-                </Container>
+                <Alert variant="success">You are now registered! Redirect to logged in area.</Alert>
             )
         }
  
         return (
-            <Container>
                 <Card>
                 <Card.Header as="h2">Register</Card.Header>
 
@@ -164,7 +160,6 @@ class Register extends Component {
                             Already have an account? <Link to='/login'>Log in instead.</Link> 
                         </Card.Footer>
                 </Card>
-            </Container>
 
         )
     }

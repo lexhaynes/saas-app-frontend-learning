@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-import Container from '../layout/ContainerBasic';
 
 
 const RESEND_API_ENDPOINT = '/api/resend-activation-link';
@@ -77,7 +76,7 @@ class ResendActivationLink extends Component {
         }
         if (errorList.length > 0) {
             return (
-                <Container>
+                <>
                     {
                         errorList.map((err, i) => {
                             return (
@@ -87,14 +86,13 @@ class ResendActivationLink extends Component {
                             )
                         })
                     }
-                </Container>
+                </>
             )
         }
         return (
-            <Container>
+            <>
                 <h2>Resend Activation Link</h2>
                 <Form>
-                    
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control 
@@ -116,8 +114,7 @@ class ResendActivationLink extends Component {
                         Submit
                     </Button>
                 </Form>
-            
-            </Container>
+            </>
 
         )
     }

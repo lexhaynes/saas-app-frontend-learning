@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Alert, Button, Card } from 'react-bootstrap';
-import Container from '../layout/ContainerBasic';
 import Cookies from 'js-cookie';
 
  const LOGIN_API_ENDPOINT = '/api/login';
@@ -85,7 +84,7 @@ class Login extends Component {
 
         if (errorList.length) {
             return (
-                <Container>
+                <>
                     {
                         errorList.map((err, i) => {
                             return (
@@ -95,20 +94,17 @@ class Login extends Component {
                             )
                         })
                     }
-                </Container>
+                </>
             )
         } 
 
         if (success) {
             return (
-                <Container>
-                    <Alert variant="success">You are now logged in! Redirect to logged in area.</Alert>
-                </Container>
+                <Alert variant="success">You are now logged in! Redirect to logged in area.</Alert>
             )
         }
  
         return (
-            <Container>
                 <Card>
                     <Card.Header as="h2">Login</Card.Header>
 
@@ -153,8 +149,6 @@ class Login extends Component {
                             <p>Trouble logging in?  <Link to='/account/reset-password-link'>Reset password here.</Link></p>
                     </Card.Footer>
                 </Card>
-            </Container>
-
         )
     }
 }

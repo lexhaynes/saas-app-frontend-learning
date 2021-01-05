@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { useHistory, Link } from "react-router-dom";
-import Container from '../layout/ContainerBasic';
 import queryString from 'query-string';
 import Alert from 'react-bootstrap/Alert';
 
@@ -74,17 +73,17 @@ class AccountActivation extends Component {
         }
 
         return (
-            <Container>
+            <>
                 {
                     errorList.map((err, i) => {
                         return (
                             <Alert key={i} variant='danger'>
-                                {err.errorMsg} <Link to="/resend-activation-token">Resend activation token.</Link>
+                                {err.errorMsg} <Link to="/account/resend-activation-link">Email activation link again.</Link>
                             </Alert>
                         )
                     })
                 }
-            </Container>
+            </>
         )
     }
 }//end AccountActivation()
