@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Alert, Button, Card } from 'react-bootstrap';
+import { Form, Alert, Button } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 
  const LOGIN_API_ENDPOINT = '/api/login';
@@ -55,21 +55,21 @@ class Login extends Component {
                 return res.json().then(err => {throw err}); //<-- throw an error if response is not ok
             }
             return res.json();
-        }).then((results) => {
+        }).then((res) => {
             //SUCCESSFUL LOGIN
             this.setState({
                 success:true
             })
             
-            console.log("results: ", results);
+            console.log("results: ", res);
             //this cookie will be sent to the server with each API request, and will confirm that the user is logged in.
-            const token = results.token;
+            const token = res.results.token;
             Cookies.set('token', token, {
                 expires: 7 //<-- cookie experiesi n 7 days
             });
         })
         .catch((err) => {
-            console.log(err);
+            console.log(err.errors);
             //DISPLAY ERROR ON UI
             this.setState((prevState, props) => ({
                 errorList: [...prevState.errorList, ...err.errors],
@@ -89,7 +89,7 @@ class Login extends Component {
                         errorList.map((err, i) => {
                             return (
                                 <Alert key={i} variant='danger'>
-                                    {err.errorMsg}
+                                    {err.msg}
                                 </Alert>
                             )
                         })
@@ -105,12 +105,9 @@ class Login extends Component {
         }
  
         return (
-                <Card>
-                    <Card.Header as="h2">Login</Card.Header>
-
-                    <Card.Body>
-
-                        <Form> 
+            <div className="form-container">
+                    <div className="form-header">Login</div>
+                    <Form> 
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control 
@@ -133,7 +130,6 @@ class Login extends Component {
                             
                         </Form.Group>
 
-
                         <Button 
                             variant="primary" 
                             type="button"
@@ -142,13 +138,13 @@ class Login extends Component {
                         >
                             Submit
                         </Button>
-                        </Form>
-                    </Card.Body>
-                    <Card.Footer> 
+
+                        <div className="form-footer">
                             <p>Don't have an account? <Link to='/register'>Register here.</Link></p>
                             <p>Trouble logging in?  <Link to='/account/reset-password-link'>Reset password here.</Link></p>
-                    </Card.Footer>
-                </Card>
+                        </div>
+                    </Form>
+            </div>
         )
     }
 }

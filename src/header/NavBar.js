@@ -16,8 +16,7 @@ class NavBar extends Component {
 
     render() {
         return (
-            <Navbar bg="light" expand="lg">
-                <Container>
+            <Navbar bg="dark" variant="dark" expand="lg">
                     <Navbar.Brand href="/">Bookwhim</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
@@ -36,7 +35,6 @@ class NavBar extends Component {
                                 </NavDropdown>
                             </Nav>
                         </Navbar.Collapse>
-                </Container>
             </Navbar>
         )
 

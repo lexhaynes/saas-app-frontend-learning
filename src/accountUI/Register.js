@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Alert, Card } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {
     validateEmail,
@@ -24,6 +24,7 @@ class Register extends Component {
             passwordIsValid: false,
             errorList: [],
             success: false,
+            successMsg: ''
         };
         this.handleUpdateEmail = this.handleUpdateEmail.bind(this);
         this.handleUpdatePassword = this.handleUpdatePassword.bind(this);
@@ -66,17 +67,17 @@ class Register extends Component {
             if (!res.ok) {
                 return res.json().then(err => {throw err}); //<-- throw an error if response is not ok
             }
-            return res.json;
+            return res.json();
         }).then((results) => {
             //ACCOUNT SUCCESSFULLY CREATED
             this.setState({
-                success: true
+                success: true,
             })
             
             console.log("results: ", results);
         })
         .catch((err) => {
-            console.log(err.errors);
+            console.log(err);
             //DISPLAY ERROR ON UI
 
             this.setState((prevState, props) => ({
@@ -100,7 +101,7 @@ class Register extends Component {
                         errorList.map((err, i) => {
                             return (
                                 <Alert key={i} variant='danger'>
-                                    {err.errorMsg}
+                                    {err.msg}
                                 </Alert>
                             )
                         })
@@ -111,16 +112,14 @@ class Register extends Component {
 
         if (success) {
             return (
-                <Alert variant="success">You are now registered! Redirect to logged in area.</Alert>
+                <Alert variant="success">Your account has been created! Please check your email to activate your account.</Alert>
             )
         }
  
         return (
-                <Card>
-                <Card.Header as="h2">Register</Card.Header>
-
-                    <Card.Body>          
-                        <Form> 
+            <div className="form-container">
+                <div className="form-header">Register</div>          
+                    <Form> 
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control 
@@ -155,11 +154,11 @@ class Register extends Component {
                         </Button>
   
                         </Form>
-                    </Card.Body>
-                    <Card.Footer> 
-                            Already have an account? <Link to='/login'>Log in instead.</Link> 
-                        </Card.Footer>
-                </Card>
+             
+                        <div className="form-footer">
+                            <p>Already have an account? <Link to='/login'>Log in instead.</Link> </p>
+                        </div>
+                </div>
 
         )
     }

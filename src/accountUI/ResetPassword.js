@@ -38,27 +38,22 @@ class ResetPassword extends Component {
       }
 
     componentDidMount = () => {
-        console.log("did mount");
         //get token from url
         const token = queryString.parse(this.props.location.search).token || null;
 
         //if no token, perhaps redirect to home page? or display an error
-        if (token === null) {
-            
-            const error = {
-                errorMsg: "Please request a reset password link."
-            };
-
+        if (!token) {
             this.setState({
-                errorList: [...this.state.errorList, error]
+                success: false,
+                errorList: [...this.state.errorList, {errorMsg: "This password reset link is invalid."}]
             });
+            return;
 
-        } else {
-            this.setState({
-                token
-            });
-        }
-
+        } 
+        
+        this.setState({
+            token
+        });
     }
 
 
@@ -101,7 +96,7 @@ class ResetPassword extends Component {
             console.log(err);
     
             this.setState({
-                errorList: [...this.state.errorList, err]
+                errorList: [...this.state.errorList, ...err.errors]
             });
         })
 
@@ -118,7 +113,7 @@ class ResetPassword extends Component {
                         errorList.map((err, i) => {
                             return (
                                 <Alert key={i} variant='danger'>
-                                    {err.errorMsg}
+                                    {err.msg}
                                 </Alert>
                             )
                         })
@@ -135,8 +130,8 @@ class ResetPassword extends Component {
             )
         }
          return ( //TODO: client-side password validation here
-            <Container>
-                <h2>Reset Password</h2>
+            <div className="form-container">
+                <div className="form-header">Reset Password</div>
                 <Form>
                     
                     <Form.Group controlId="formBasicPassword">
@@ -159,7 +154,7 @@ class ResetPassword extends Component {
                     </Button>
                 </Form>
             
-            </Container>
+            </div>
 
         )
     }

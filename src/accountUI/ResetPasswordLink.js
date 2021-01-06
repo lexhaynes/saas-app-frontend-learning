@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Button, Card, Alert } from 'react-bootstrap/';
+import { Form, Button, Alert } from 'react-bootstrap/';
 import Container from '../layout/ContainerBasic';
 
 
@@ -73,15 +73,11 @@ class ResetPasswordLink extends Component {
 
         if (success) {
             return (
-                <Container>
-                    <Alert variant='success'>A reset-password link has been sent to your account.</Alert>
-                </Container>
+               <Alert variant='success'>A reset-password link has been sent to your account.</Alert>
             )
         }
         if (errorList.length > 0) {
             return (
-                <Container>
-                    {
                         errorList.map((err, i) => {
                             return (
                                 <Alert key={i} variant='danger'>
@@ -89,15 +85,13 @@ class ResetPasswordLink extends Component {
                                 </Alert>
                             )
                         })
-                    }
-                </Container>
+                    
             )
         }
+        
         return ( //TODO: client-side email validation here
-            <Container>
-                <Card>
-                    <Card.Body>          
-                        <Card.Title><h2>Email Password Reset Link</h2></Card.Title>
+                <div className="form-container">
+                        <div className="form-header">Email Password Reset Link</div>
                         <Form>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
@@ -119,13 +113,11 @@ class ResetPasswordLink extends Component {
                             </Button>
                         </Form>
             
-                    </Card.Body>
-                    <Card.Footer> 
+                    <div className="form-footer"> 
                             Want to try logging in again? <Link to='/login'>Login here.</Link>
-                    </Card.Footer>
-                </Card>
+                    </div>
+                </div>
                 
-            </Container>
 
         )
     }

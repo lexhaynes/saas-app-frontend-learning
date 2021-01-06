@@ -90,8 +90,9 @@ class ResendActivationLink extends Component {
             )
         }
         return (
-            <>
-                <h2>Resend Activation Link</h2>
+            <div className="form-container">
+                <div className="form-header">Resend Activation Link</div>      
+               
                 <Form>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
@@ -114,7 +115,7 @@ class ResendActivationLink extends Component {
                         Submit
                     </Button>
                 </Form>
-            </>
+            </div>
 
         )
     }

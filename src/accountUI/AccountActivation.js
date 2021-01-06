@@ -26,7 +26,7 @@ class AccountActivation extends Component {
         if (!token) {
             this.setState({
                 success: false,
-                errorList: [...this.state.errorList, {errorMsg: "There was a problem with the activation token."}]
+                errorList: [...this.state.errorList, {errorMsg: "This activation reset link has expired."}]
             });
             return;
         }
@@ -59,7 +59,7 @@ class AccountActivation extends Component {
             //DISPLAY ERROR ON UI
             this.setState({
                 success: false,
-                errorList: [...this.state.errorList, err]
+                errorList: [...this.state.errorList, ...err.errors]
             });
         });
     }
@@ -78,7 +78,7 @@ class AccountActivation extends Component {
                     errorList.map((err, i) => {
                         return (
                             <Alert key={i} variant='danger'>
-                                {err.errorMsg} <Link to="/account/resend-activation-link">Email activation link again.</Link>
+                                {err.msg} <Link to="/account/resend-activation-link">Request a new activation link.</Link>
                             </Alert>
                         )
                     })
